@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vernon IG 內容分析</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; background: #f9f9f9; }
+    .post { background: #fff; padding: 20px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 6px #ccc; }
+    .time { font-size: 0.9em; color: gray; }
+    img { max-width: 300px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>📸 Vernon 最新 IG 內容分析</h1>
+  <div id="content"></div>
+
+  <script>
+    fetch("data.json")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("content");
+        data.forEach(post => {
+          const html = `
+            <div class="post">
+              <div class="time">🕒 ${post.time}</div>
+              <img src="images/${post.image}" alt="Vernon photo"><br><br>
+              <b>文案：</b><br>${post.caption}<br><br>
+              <b>三個觀點分析：</b><ul>
+                ${post.analysis.map(p => `<li>${p}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+          container.innerHTML += html;
+        });
+      });
+  </script>
+</body>
+</html>
